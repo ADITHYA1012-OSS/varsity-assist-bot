@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { ChatMessage } from "./ChatMessage";
 import { CategoryButton } from "./CategoryButton";
-import { Send, Building2, Microscope, GraduationCap, Trophy, Loader2 } from "lucide-react";
+import { TypingIndicator } from "./TypingIndicator";
+import { Send, Building2, Microscope, GraduationCap, Trophy, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Message {
@@ -152,8 +153,21 @@ export const ChatInterface = () => {
 
   return (
     <div className="flex flex-col h-full max-w-4xl mx-auto">
-      {/* Quick Categories */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      {/* Welcome Message */}
+      <div className="text-center mb-8 animate-slide-up">
+        <div className="flex items-center justify-center gap-2 mb-3">
+          <Sparkles className="w-6 h-6 text-primary animate-pulse" />
+          <h2 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            How can I help you today?
+          </h2>
+        </div>
+        <p className="text-muted-foreground text-sm">
+          Explore our campus facilities, labs, faculty, and achievements through conversation
+        </p>
+      </div>
+
+      {/* Enhanced Quick Categories */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <CategoryButton
           title="Facilities"
           description="Library, gym, cafeteria"
@@ -180,9 +194,9 @@ export const ChatInterface = () => {
         />
       </div>
 
-      {/* Chat Messages */}
-      <Card className="flex-1 p-4 mb-4 overflow-hidden">
-        <div className="h-full overflow-y-auto pr-2">
+      {/* Enhanced Chat Messages */}
+      <Card className="flex-1 p-6 mb-6 overflow-hidden glass-effect border-primary/10">
+        <div className="h-full overflow-y-auto pr-2 space-y-1">
           {messages.map((message) => (
             <ChatMessage
               key={message.id}
@@ -193,9 +207,10 @@ export const ChatInterface = () => {
           ))}
           
           {isTyping && (
-            <div className="flex items-center gap-2 text-muted-foreground mb-4">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="text-sm">AI is typing...</span>
+            <div className="flex justify-start mb-4">
+              <div className="glass-effect px-4 py-3 rounded-2xl rounded-bl-md max-w-[70%]">
+                <TypingIndicator />
+              </div>
             </div>
           )}
           
@@ -203,20 +218,21 @@ export const ChatInterface = () => {
         </div>
       </Card>
 
-      {/* Input Area */}
-      <div className="flex gap-2">
+      {/* Enhanced Input Area */}
+      <div className="flex gap-3 p-4 glass-effect rounded-2xl border-primary/10">
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask about facilities, labs, faculty, or achievements..."
           onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
           disabled={isTyping}
-          className="flex-1"
+          className="flex-1 border-0 bg-transparent focus-visible:ring-1 focus-visible:ring-primary/50"
         />
         <Button 
           onClick={handleSendMessage} 
           disabled={!input.trim() || isTyping}
           size="icon"
+          className="glow-effect hover:scale-110 transition-all duration-200"
         >
           <Send className="h-4 w-4" />
         </Button>
